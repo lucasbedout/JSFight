@@ -31,5 +31,5 @@ app.use(passport.session());
 var auth = require('./app/controllers/auth')(passport);
 app.use('/auth', auth);
 
-app.listen(5000);
-console.log('Magic happens on 5000');
+app.listen(3000);
+console.log('Magic happens on 3000');
