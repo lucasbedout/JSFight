@@ -9,7 +9,7 @@ For this project you'll need Node.JS and grunt-cli installed.
     npm install
     grunt
 
-You can now see your app at http://localhost:3000` !
+You can now see your app at `http://localhost:3000` !
 
 ## Develop
 
