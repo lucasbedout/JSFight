@@ -28,7 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-var auth = require('./app/controllers/auth')(passport);
+var auth = require('./app/routes/auth')(passport);
 app.use('/auth', auth);
 
 app.listen(3000);
