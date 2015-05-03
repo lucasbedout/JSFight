@@ -52,7 +52,10 @@ module.exports = function(grunt) {
         // watch our node server for changes
         nodemon: {
             dev: {
-                script: 'server.js'
+                script: 'server.js',
+                options: {
+                    nodeArgs: ['--debug']
+                }
             }
         },
 
