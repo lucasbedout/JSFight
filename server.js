@@ -27,9 +27,13 @@ app.use(session({secret: 'supinfocestnul' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'public/views/index.html'));
+})
+
 // Routes
 var auth = require('./app/routes/auth')(passport);
-app.use('/auth', auth);
+app.use('/api/auth', auth);
 
 app.listen(3000);
 console.log('Magic happens on 3000');

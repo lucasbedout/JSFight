@@ -65,11 +65,11 @@ module.exports = function(passport) {
                 if (!user)
                     return done(null, false, {message: 'No user with this username'});
 
-                // if the user is found but the password is wrong
+                // wrong password
                 if (!user.validPassword(password))
                     return done(null, false, {message: 'Wrong password'});
 
-                // Credentials ok, return the user
+                // Credentials ok
                 return done(null, user);
             });
 

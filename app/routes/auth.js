@@ -21,11 +21,16 @@ module.exports = function(passport) {
             if (err) {
                 return next(err);
             }
-            // Generate a JSON response reflecting authentication status
             if (!user) {
                 return res.send({ success : false, message : message });
             }
-            return res.send({ success : true, user: user });
+            // Credentials ok, manual login
+            req.logIn(user, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                return res.send({user: user});
+            });
         })(req, res, next);
     });
 
