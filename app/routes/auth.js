@@ -39,6 +39,10 @@ module.exports = function(passport) {
        res.send({success: true});
     });
 
+    router.get('/current_user', auth, function(req, res, next) {
+        res.send(req.user);
+    });
+
     // route middleware to make sure a user is logged in
     function auth(req, res, next) {
 

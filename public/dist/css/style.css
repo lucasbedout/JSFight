@@ -1,4 +1,7 @@
 /* public/src/css/style.less */
 body {
-  background: #467387;
+  background: white;
+}
+input:-webkit-autofill {
+  color: #fff !important;
 }
