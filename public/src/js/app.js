@@ -5,31 +5,18 @@ angular.module('JSFight', ['ui.router'])
         url: 'http://localhost:3000/api/'
     })
 
-    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    .run(['$rootScope', '$state', '$stateParams', '$location', function ($rootScope, $state, $stateParams) {
 
-        //$urlRouterProvider.otherwise('/');
-
-        $stateProvider
-
-            // Login
-            .state('home', {
-                url: '/',
-                templateUrl: '../views/home.html'
-            })
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
 
 
-            // Login
-            .state('login', {
-                url: '/login',
-                templateUrl: '../views/auth/login.html',
-                controller: 'AuthCtrl'
-            })
+    // Auth interceptor on route change, to make better
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 
-            // Signup
-            .state('signup', {
-                url: '/signup',
-                templateUrl: '../views/auth/signup.html',
-                controller: 'AuthCtrl'
-            });
+        // We set the user in the rootScope
+        $rootScope.user = JSON.parse(localStorage.getItem('user'));
 
-    }]);
+    });
+}
+]);

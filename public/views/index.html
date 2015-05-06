@@ -19,10 +19,10 @@
             <a class="navbar-brand" ui-sref="home">SUPINFO JS Fight</a>
         </div>
         <ul class="nav navbar-nav">
-            <li ng-show="!user"><a ui-sref="login">Login</a></li>
-            <li ng-show="!user"><a ui-sref="signup">Signup</a></li>
-            <li ng-show="user"><a ui-sref="stats">Statistiques</a></li>
-            <li ng-show="user"><a ng-click="logout()">Logout</a></li>
+            <li ng-show="!user"><a href ui-sref="login">Login</a></li>
+            <li ng-show="!user"><a href ui-sref="signup">Signup</a></li>
+            <li ng-show="user"><a href ui-sref="stats">Statistiques</a></li>
+            <li ng-show="user"><a href ng-click="logout()">Logout</a></li>
         </ul>
     </nav>
 
