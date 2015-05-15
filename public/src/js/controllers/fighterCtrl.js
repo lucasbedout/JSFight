@@ -1,4 +1,4 @@
-angular.module('JSFight').controller('fighterCtrl', ['$scope', 'Fight', function($scope, Fight) {
+angular.module('JSFight').controller('fighterCtrl', ['$scope', '$rootScope', 'Fight', function($scope, $rootScope, Fight) {
 
         $scope.player = {
             name: 'Mehdi',
@@ -21,6 +21,7 @@ angular.module('JSFight').controller('fighterCtrl', ['$scope', 'Fight', function
 
         $scope.sendPlayer = function() {
             // Use Fight service to send something
+            // Fight.doSomething(toto)
         };
 
     }]);
