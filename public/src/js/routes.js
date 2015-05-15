@@ -26,6 +26,13 @@ angular.module('JSFight')
                 url: '/signup',
                 templateUrl: '../views/auth/signup.html',
                 controller: 'AuthCtrl'
+            })
+
+            // Game
+            .state('game', {
+                url: '/game',
+                templateUrl: '../views/core_game/core_game_client.html',
+                controller: 'fighterCtrl'
             });
 
         // Interceptor
