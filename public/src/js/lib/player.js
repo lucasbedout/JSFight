@@ -90,10 +90,12 @@ var Player = function(SVG, type, x, y, $scope, player){
         var punching = true,
             endPunch = false;
         $$.punching = true;
-        console.log("coucou");
+        console.log(direction);
         $$.punchInterval = setInterval(function(){
-            if ($$.armx - width < $$.x && !endPunch && punching){
-                $$.arm += direction;
+            console.log($$.armx, ($$.x + (width * direction)));
+            if ($$.armx != ($$.x + (width * direction)) &&
+                !endPunch && punching){
+                $$.armx += direction;
             } else if (!endPunch){
                 punching = false;
                 $$.armx -= direction;
