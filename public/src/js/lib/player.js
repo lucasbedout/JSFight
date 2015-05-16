@@ -9,7 +9,10 @@ var Player = function(SVG, type, x, y, $scope, player){
         $$.y = y;
         $$.buildStickmanJSON();
         $$.armx = $$.x;
+        $$.legx = $$.x;
+        $$.blockx = $$.x;
         $$.height = 100;
+        $$.blocky = $$.y + $$.height;
         $$.bodyy2 = $$.y + $$.height;
     };
 
@@ -26,8 +29,10 @@ var Player = function(SVG, type, x, y, $scope, player){
         $$.jumpInterval = setInterval(function(){
             if ($$.initialHeight - height < $$.y && !endJump && goingUp){
                 $$.y--;
+                $$.y--;
             } else if (!endJump){
                 goingUp = false;
+                $$.y++;
                 $$.y++;
                 if ($$.y == _initialHeight)
                     endJump = true;
@@ -38,7 +43,7 @@ var Player = function(SVG, type, x, y, $scope, player){
                 $$.jumping = 0;
                 clearInterval($$.jumpInterval);
             }
-        }, 5);
+        }, 1);
     };
 
     $$.stopJump = function(){
@@ -59,8 +64,11 @@ var Player = function(SVG, type, x, y, $scope, player){
             return 0;
         $$.x--;
         $$.x--;
+        $$.x--;
         if ($$.punching)
-            $$.armx -= 2;
+            $$.armx -= 3;
+        if ($$.kicking)
+            $$.legx -= 3;
     };
 
     $$.moveRight = function(){
@@ -68,8 +76,11 @@ var Player = function(SVG, type, x, y, $scope, player){
             return 0;
         $$.x++;
         $$.x++;
+        $$.x++;
         if ($$.punching)
-            $$.armx += 2;
+            $$.armx += 3;
+        if ($$.kicking)
+            $$.legx += 3;
     };
 
     $$.crouch = function(height, $generalScope){
@@ -86,18 +97,35 @@ var Player = function(SVG, type, x, y, $scope, player){
         $generalScope.$apply();
     };
 
+    $$.blockUp = function(from, $generalScope, direction){
+        $$.blocking = true;
+        $$.blockx = $$.x + (from * direction);
+        $$.blocky = $$.y;
+        $$.buildStickmanJSON();
+        $generalScope.$apply();
+    };
+
+    $$.unblock = function(from, $generalScope, direction){
+        $$.blocking = false;
+        $$.blockx = $$.x;
+        $$.blocky = $$.y;
+        $$.buildStickmanJSON();
+        $generalScope.$apply();
+    };
+
     $$.punch = function(width, $generalScope, direction){
         var punching = true,
             endPunch = false;
         $$.punching = true;
         console.log(direction);
         $$.punchInterval = setInterval(function(){
-            console.log($$.armx, ($$.x + (width * direction)));
             if ($$.armx != ($$.x + (width * direction)) &&
                 !endPunch && punching){
                 $$.armx += direction;
+                $$.armx += direction;
             } else if (!endPunch){
                 punching = false;
+                $$.armx -= direction;
                 $$.armx -= direction;
                 if ($$.x == $$.armx)
                     endPunch = true;
@@ -109,12 +137,38 @@ var Player = function(SVG, type, x, y, $scope, player){
                 $$.punching = false;
                 clearInterval($$.punchInterval);
             }
+        }, 1);
+    };
+
+    $$.kick = function(width, $generalScope, direction){
+        var kicking = true,
+            endKick = false;
+        $$.kicking = true;
+        $$.kickInterval = setInterval(function(){
+            if ($$.legx != ($$.x + (width * direction)) &&
+                !endKick && kicking){
+                $$.legx += direction;
+            } else if (!endKick){
+                kicking = false;
+                $$.legx -= direction;
+                if ($$.x == $$.legx)
+                    endKick = true;
+            }
+            $$.buildStickmanJSON();
+            $generalScope.$apply();
+            if (endKick){
+                $$.attacking = false;
+                $$.kicking = false;
+                clearInterval($$.kickInterval);
+            }
         }, 5);
     };
 
     $$.buildStickmanJSON = function(){
         if (!$$.punching)
             $$.armx = $$.x;
+        if (!$$.kicking)
+            $$.legx = $$.x;
         if (!$$.crouched)
             $$.bodyy1 = $$.y;
         $$.body = {
@@ -135,25 +189,25 @@ var Player = function(SVG, type, x, y, $scope, player){
         };
         $$.arm = {
             "x1" : $$.x,
-            "y1" : $$.y + 20,
+            "y1" : $$.bodyy1 + 20,
             "x2" : $$.armx,
-            "y2" : $$.y + 20,
+            "y2" : $$.bodyy1 + 20,
             "stroke" : "black",
             "strokeWidth" : 7
         };
         $$.leg = {
             "x1" : $$.x,
-            "y1" : $$.y + 60,
-            "x2" : $$.x,
-            "y2" : $$.y + 60,
+            "y1" : $$.bodyy1 + 60,
+            "x2" : $$.legx,
+            "y2" : $$.bodyy1 + 60,
             "stroke" : "black",
             "strokeWidth" : 7
         };
         $$.block = {
-            "x1" : $$.x,
-            "y1" : $$.y - $$.height,
-            "x2" : $$.x,
-            "y2" : $$.y - $$.height,
+            "x1" : $$.blockx,
+            "y1" : $$.blocky,
+            "x2" : $$.blockx,
+            "y2" : $$.y + $$.height,
             "stroke" : "blue",
             "strokeWidth" : 4
         };
