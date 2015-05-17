@@ -9,8 +9,8 @@ angular.module('JSFight')
         $scope.opponent = "player2";
         $scope.opponent = "player2";
 
-        $scope.player1 = new Player(svg, "default", 60, 60, $scope);
-        $scope.player2 = new Player(svg, "default", 160, 60, $scope);
+        $scope.player1 = new Player(svg, "default", 200, 200, $scope);
+        $scope.player2 = new Player(svg, "default", 700, 200, $scope);
 
         $scope[$scope.player].movingLeft = false;
         $scope[$scope.player].movingRight = false;
@@ -110,21 +110,30 @@ angular.module('JSFight')
                 if ($scope[$scope.player].direction > 0 &&
                     $scope[$scope.opponent].attacking &&
                     !$scope[$scope.player].jumping){
-                    $scope[$scope.player].blockUp(10,
-                                                $scope,
-                                                  $scope[$scope.player].direction);
+                    $scope[$scope.player]
+                        .blockUp(10,
+                                 $scope,
+                                 $scope[$scope.player].direction);
                 } else {
+                    if ($scope[$scope.player].blocking)
+                        $scope[$scope.player]
+                        .unblock($scope);
                     $scope[$scope.player].moveLeft();
                 }
             }
             if ($scope[$scope.player].movingRight){
-                $scope[$scope.player].moveRight();
                 if ($scope[$scope.player].direction < 0 &&
                     $scope[$scope.opponent].attacking &&
                     !$scope[$scope.player].jumping){
-                    $scope[$scope.player].blockUp(10,
-                                                $scope,
-                                                  $scope[$scope.player].direction);
+                    $scope[$scope.player]
+                        .blockUp(10,
+                                 $scope,
+                                 $scope[$scope.player].direction);
+                } else {
+                    if ($scope[$scope.player].blocking)
+                        $scope[$scope.player]
+                        .unblock($scope);
+                    $scope[$scope.player].moveRight();
                 }
             }
             if ($scope[$scope.player].x - $scope[$scope.opponent].x > 0){
@@ -141,8 +150,10 @@ angular.module('JSFight')
         document.addEventListener('keyup', function(event) {
             if (event.keyCode == 37){
                 $scope[$scope.player].movingLeft = false;
+                $scope[$scope.player].blocking = false;
             } if (event.keyCode == 39){
                 $scope[$scope.player].movingRight = false;
+                $scope[$scope.player].blocking = false;
             } if (event.keyCode == 38){
                 $scope[$scope.player].movingTop = false;
             } if (event.keyCode == 40){
