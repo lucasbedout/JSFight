@@ -146,11 +146,11 @@ angular.module('JSFight')
                 }
             }
             if ($scope[$scope.player].x - $scope[$scope.opponent].x > 0){
-                $scope[$scope.player].direction = 1;
+                $scope[$scope.player].direction = -1;
                 $scope[$scope.opponent].direction = 1;
             } else {
                 $scope[$scope.player].direction = 1;
-                $scope[$scope.opponent].direction = 1;
+                $scope[$scope.opponent].direction = -1;
             }
             $scope[$scope.player].buildStickmanJSON();
             $scope[$scope.opponent].buildStickmanJSON();
