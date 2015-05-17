@@ -36,7 +36,8 @@ angular.module('JSFight')
                     $scope[$scope.player]
                         .punch(20,
                                $scope,
-                               $scope[$scope.player].direction);
+                               $scope[$scope.player].direction,
+                               $scope.opponent);
                 }
             } if (event.keyCode == 90){
                 // Z Punch
@@ -46,7 +47,8 @@ angular.module('JSFight')
                     $scope[$scope.player]
                         .punch(50,
                                $scope,
-                               $scope[$scope.player].direction);
+                               $scope[$scope.player].direction,
+                               $scope.opponent);
                 }
             } if (event.keyCode == 69){
                 // E Punch
@@ -56,7 +58,8 @@ angular.module('JSFight')
                     $scope[$scope.player]
                         .punch(100,
                                $scope,
-                               $scope[$scope.player].direction);
+                               $scope[$scope.player].direction,
+                               $scope.opponent);
                 }
             } if (event.keyCode == 39){
                 //moving right
@@ -86,7 +89,8 @@ angular.module('JSFight')
                     $scope[$scope.player]
                         .kick(20,
                                $scope,
-                               $scope[$scope.player].direction);
+                               $scope[$scope.player].direction,
+                               $scope.opponent);
                 }
             } if (event.keyCode == 83){
                 // S kick
@@ -96,7 +100,8 @@ angular.module('JSFight')
                     $scope[$scope.player]
                         .kick(50,
                                $scope,
-                               $scope[$scope.player].direction);
+                               $scope[$scope.player].direction,
+                               $scope.opponent);
                 }
             } if (event.keyCode == 68){
                 // D kick
@@ -106,7 +111,8 @@ angular.module('JSFight')
                     $scope[$scope.player]
                         .kick(100,
                                $scope,
-                               $scope[$scope.player].direction);
+                               $scope[$scope.player].direction,
+                               $scope.opponent);
                 }
             }
         });
@@ -167,8 +173,9 @@ angular.module('JSFight')
             $scope[$scope.opponent].attacking = true;
                     $scope[$scope.opponent]
                         .kick(100,
-                               $scope,
-                               $scope[$scope.opponent].direction);
+                              $scope,
+                              $scope[$scope.opponent].direction,
+                              $scope.player);
         }, 2000);
 
         document.addEventListener('keyup', function(event) {
