@@ -6,15 +6,15 @@ angular.module('JSFight')
         return {
 
             signup: function(username, password) {
-                return $http.post(API.url + 'auth/signup', {username: username, password: password});
+                return $http.post(API.url + 'signup', {username: username, password: password});
             },
 
             login: function(username, password) {
-                return $http.post(API.url + 'auth/login', {username: username, password: password});
+                return $http.post(API.url + 'login', {username: username, password: password});
             },
 
             logout: function() {
-                return $http.get(API.url + 'auth/logout');
+                return $http.get(API.url + 'logout');
             }
         };
 

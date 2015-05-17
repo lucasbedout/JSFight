@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Message = require('../models/message');
 
 module.exports = function(passport) {
 
@@ -42,6 +43,14 @@ module.exports = function(passport) {
     router.get('/current_user', auth, function(req, res, next) {
         res.send(req.user);
     });
+
+    router.get('/messages', auth, function(req, res) {
+        Message.find(function(err, messages) {
+            if (err)
+                res.send(err);
+            res.json(messages);
+        })
+    })
 
     // route middleware to make sure a user is logged in
     function auth(req, res, next) {

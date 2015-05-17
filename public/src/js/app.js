@@ -1,5 +1,5 @@
 // public/src/js/app.js
-angular.module('JSFight', ['ui.router'])
+angular.module('JSFight', ['ui.router', 'btford.socket-io'])
 
     .constant('API', {
         url: 'http://localhost:3000/api/'
@@ -31,3 +31,9 @@ angular.module('JSFight').directive('keypressEvents', ['$document', '$rootScope'
             }
         };
     }]);
+
+angular.module('JSFight')
+    .value('Formatter', function(nick, message) {
+        return nick + ' - ' + message + '\n';
+    });
+
