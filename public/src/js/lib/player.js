@@ -3,15 +3,16 @@ var Player = function(SVG, type, x, y, $scope, player){
     $$.SVG = null;
 
     $$.init = function(SVG, type, x, y, $scope, player){
+        $$.health = 100;
         $$.SVG = SVG;
         $$.x = x;
         $$.id = player;
         $$.y = y;
+        $$.height = 100;
         $$.buildStickmanJSON();
         $$.armx = $$.x;
         $$.legx = $$.x;
         $$.blockx = $$.x;
-        $$.height = 100;
         $$.blocky = $$.y + $$.height;
         $$.bodyy2 = $$.y + $$.height;
     };
@@ -100,12 +101,12 @@ var Player = function(SVG, type, x, y, $scope, player){
     $$.blockUp = function(from, $generalScope, direction){
         $$.blocking = true;
         $$.blockx = $$.x + (from * direction);
-        $$.blocky = $$.y;
+        $$.blocky = $$.y + $$.height;
         $$.buildStickmanJSON();
         $generalScope.$apply();
     };
 
-    $$.unblock = function(from, $generalScope, direction){
+    $$.unblock = function($generalScope){
         $$.blocking = false;
         $$.blockx = $$.x;
         $$.blocky = $$.y;
@@ -129,6 +130,19 @@ var Player = function(SVG, type, x, y, $scope, player){
                 $$.armx -= direction;
                 if ($$.x == $$.armx)
                     endPunch = true;
+            }
+            if (punching){
+                if ((($generalScope[$generalScope.opponent].x < $$.armx &&
+                      direction > 0 &&
+                     $generalScope[$generalScope.opponent].x > $$.x) ||
+                     ($generalScope[$generalScope.opponent].x > $$.armx &&
+                      direction < 0 &&
+                      $generalScope[$generalScope.opponent].x < $$.x)) &&
+                    !$generalScope[$generalScope.opponent].blocking){
+                    console.log("remove health");
+                    console.log($generalScope[$generalScope.opponent].health);
+                    punching = false;
+                }
             }
             $$.buildStickmanJSON();
             $generalScope.$apply();
@@ -171,6 +185,10 @@ var Player = function(SVG, type, x, y, $scope, player){
             $$.legx = $$.x;
         if (!$$.crouched)
             $$.bodyy1 = $$.y;
+        if (!$$.blocking){
+            $$.blocky = $$.y;
+            $$.blockx = $$.x;
+        }
         $$.body = {
             "x1" : $$.x,
             "y1" : $$.bodyy1,
@@ -207,7 +225,7 @@ var Player = function(SVG, type, x, y, $scope, player){
             "x1" : $$.blockx,
             "y1" : $$.blocky,
             "x2" : $$.blockx,
-            "y2" : $$.y + $$.height,
+            "y2" : $$.y,
             "stroke" : "blue",
             "strokeWidth" : 4
         };
