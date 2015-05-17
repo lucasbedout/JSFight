@@ -139,7 +139,7 @@ var Player = function(SVG, type, x, y, $scope, player){
                       direction < 0 &&
                       $generalScope[$generalScope.opponent].x < $$.x)) &&
                     !$generalScope[$generalScope.opponent].blocking){
-                    console.log("remove health");
+                    $generalScope[$generalScope.opponent].health -= width/5;
                     console.log($generalScope[$generalScope.opponent].health);
                     punching = false;
                 }
@@ -168,6 +168,19 @@ var Player = function(SVG, type, x, y, $scope, player){
                 if ($$.x == $$.legx)
                     endKick = true;
             }
+            if (kicking){
+                if ((($generalScope[$generalScope.opponent].x < $$.legx &&
+                      direction > 0 &&
+                     $generalScope[$generalScope.opponent].x > $$.x) ||
+                     ($generalScope[$generalScope.opponent].x > $$.legx &&
+                      direction < 0 &&
+                      $generalScope[$generalScope.opponent].x < $$.x)) &&
+                    !$generalScope[$generalScope.opponent].blocking){
+                    $generalScope[$generalScope.opponent].health -= width/5;
+                    console.log($generalScope[$generalScope.opponent].health);
+                    kicking = false;
+                }
+            }
             $$.buildStickmanJSON();
             $generalScope.$apply();
             if (endKick){
@@ -189,6 +202,17 @@ var Player = function(SVG, type, x, y, $scope, player){
             $$.blocky = $$.y;
             $$.blockx = $$.x;
         }
+        if ($$.health > 75){
+            $$.healthColor = "green";
+        } else if ($$.health > 50){
+            $$.healthColor = "yellow";
+        } else if ($$.health > 25){
+            $$.healthColor = "orange";
+        } else {
+            $$.healthColor = "red";
+        }
+        if ($$.health < 0)
+            $$.health = 0;
         $$.body = {
             "x1" : $$.x,
             "y1" : $$.bodyy1,
@@ -228,6 +252,14 @@ var Player = function(SVG, type, x, y, $scope, player){
             "y2" : $$.y,
             "stroke" : "blue",
             "strokeWidth" : 4
+        };
+        $$.lifeBar = {
+            "x1" : ($$.x - $$.health/2),
+            "y1" : $$.bodyy1 - 50,
+            "x2" : ($$.x + $$.health/2),
+            "y2" : $$.bodyy1 - 50,
+            "stroke" : $$.healthColor,
+            "strokeWidth" : 6
         };
     };
 

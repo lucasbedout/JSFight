@@ -7,7 +7,8 @@ angular.module('JSFight')
 
         $scope.player = "player1";
         $scope.opponent = "player2";
-        $scope.opponent = "player2";
+
+        $scope.message = "Let's Fight !";
 
         $scope.player1 = new Player(svg, "default", 200, 200, $scope);
         $scope.player2 = new Player(svg, "default", 700, 200, $scope);
@@ -145,15 +146,30 @@ angular.module('JSFight')
                 }
             }
             if ($scope[$scope.player].x - $scope[$scope.opponent].x > 0){
-                $scope[$scope.player].direction = -1;
+                $scope[$scope.player].direction = 1;
                 $scope[$scope.opponent].direction = 1;
             } else {
                 $scope[$scope.player].direction = 1;
-                $scope[$scope.opponent].direction = -1;
+                $scope[$scope.opponent].direction = 1;
             }
             $scope[$scope.player].buildStickmanJSON();
+            $scope[$scope.opponent].buildStickmanJSON();
+
+            if ($scope[$scope.player].health <= 0)
+                $scope.message = "you loose !";
+            else if ($scope[$scope.opponent].health <= 0)
+                $scope.message = "you win !";
+
             $scope.$apply();
         }, 10);
+
+        setInterval(function(){
+            $scope[$scope.opponent].attacking = true;
+                    $scope[$scope.opponent]
+                        .kick(100,
+                               $scope,
+                               $scope[$scope.opponent].direction);
+        }, 2000);
 
         document.addEventListener('keyup', function(event) {
             if (event.keyCode == 37){
