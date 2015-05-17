@@ -114,7 +114,7 @@ var Player = function(SVG, type, x, y, $scope, player){
         $generalScope.$apply();
     };
 
-    $$.punch = function(width, $generalScope, direction){
+    $$.punch = function(width, $generalScope, direction, target){
         var punching = true,
             endPunch = false;
         $$.punching = true;
@@ -132,15 +132,15 @@ var Player = function(SVG, type, x, y, $scope, player){
                     endPunch = true;
             }
             if (punching){
-                if ((($generalScope[$generalScope.opponent].x < $$.armx &&
+                if ((($generalScope[target].x < $$.armx &&
                       direction > 0 &&
-                     $generalScope[$generalScope.opponent].x > $$.x) ||
-                     ($generalScope[$generalScope.opponent].x > $$.armx &&
+                     $generalScope[target].x > $$.x) ||
+                     ($generalScope[target].x > $$.armx &&
                       direction < 0 &&
-                      $generalScope[$generalScope.opponent].x < $$.x)) &&
-                    !$generalScope[$generalScope.opponent].blocking){
-                    $generalScope[$generalScope.opponent].health -= width/5;
-                    console.log($generalScope[$generalScope.opponent].health);
+                      $generalScope[target].x < $$.x)) &&
+                    !$generalScope[target].blocking){
+                    $generalScope[target].health -= width/5;
+                    console.log($generalScope[target].health);
                     punching = false;
                 }
             }
@@ -154,7 +154,7 @@ var Player = function(SVG, type, x, y, $scope, player){
         }, 1);
     };
 
-    $$.kick = function(width, $generalScope, direction){
+    $$.kick = function(width, $generalScope, direction, target){
         var kicking = true,
             endKick = false;
         $$.kicking = true;
@@ -169,15 +169,15 @@ var Player = function(SVG, type, x, y, $scope, player){
                     endKick = true;
             }
             if (kicking){
-                if ((($generalScope[$generalScope.opponent].x < $$.legx &&
+                if ((($generalScope[target].x < $$.legx &&
                       direction > 0 &&
-                     $generalScope[$generalScope.opponent].x > $$.x) ||
-                     ($generalScope[$generalScope.opponent].x > $$.legx &&
+                     $generalScope[target].x > $$.x) ||
+                     ($generalScope[target].x > $$.legx &&
                       direction < 0 &&
-                      $generalScope[$generalScope.opponent].x < $$.x)) &&
-                    !$generalScope[$generalScope.opponent].blocking){
-                    $generalScope[$generalScope.opponent].health -= width/5;
-                    console.log($generalScope[$generalScope.opponent].health);
+                      $generalScope[target].x < $$.x)) &&
+                    !$generalScope[target].blocking){
+                    $generalScope[target].health -= width/5;
+                    console.log($generalScope[target].health);
                     kicking = false;
                 }
             }
