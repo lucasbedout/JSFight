@@ -29,7 +29,8 @@ angular.module('JSFight')
                 $scope[$scope.player].movingLeft = true;
             } if (event.keyCode == 65){
                 // A Punch
-                if (!$scope[$scope.player].attacking){
+                if (!$scope[$scope.player].attacking &&
+                    !$scope[$scope.player].blocking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .punch(20,
@@ -38,7 +39,8 @@ angular.module('JSFight')
                 }
             } if (event.keyCode == 90){
                 // Z Punch
-                if (!$scope[$scope.player].attacking){
+                if (!$scope[$scope.player].attacking &&
+                    !$scope[$scope.player].blocking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .punch(50,
@@ -47,7 +49,8 @@ angular.module('JSFight')
                 }
             } if (event.keyCode == 69){
                 // E Punch
-                if (!$scope[$scope.player].attacking){
+                if (!$scope[$scope.player].attacking &&
+                    !$scope[$scope.player].blocking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .punch(100,
@@ -76,7 +79,8 @@ angular.module('JSFight')
                     $scope[$scope.player].crouch(30, $scope);
             } if (event.keyCode == 81){
                 // Q kick
-                if (!$scope[$scope.player].attacking){
+                if (!$scope[$scope.player].attacking &&
+                    !$scope[$scope.player].blocking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .kick(20,
@@ -85,7 +89,8 @@ angular.module('JSFight')
                 }
             } if (event.keyCode == 83){
                 // S kick
-                if (!$scope[$scope.player].attacking){
+                if (!$scope[$scope.player].attacking &&
+                    !$scope[$scope.player].blocking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .kick(50,
@@ -94,7 +99,8 @@ angular.module('JSFight')
                 }
             } if (event.keyCode == 68){
                 // D kick
-                if (!$scope[$scope.player].attacking){
+                if (!$scope[$scope.player].attacking &&
+                    !$scope[$scope.player].blocking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .kick(100,
@@ -118,7 +124,8 @@ angular.module('JSFight')
                     if ($scope[$scope.player].blocking)
                         $scope[$scope.player]
                         .unblock($scope);
-                    $scope[$scope.player].moveLeft();
+                    if (!$scope[$scope.player].attacking)
+                        $scope[$scope.player].moveLeft();
                 }
             }
             if ($scope[$scope.player].movingRight){
@@ -133,7 +140,8 @@ angular.module('JSFight')
                     if ($scope[$scope.player].blocking)
                         $scope[$scope.player]
                         .unblock($scope);
-                    $scope[$scope.player].moveRight();
+                    if (!$scope[$scope.player].attacking)
+                        $scope[$scope.player].moveRight();
                 }
             }
             if ($scope[$scope.player].x - $scope[$scope.opponent].x > 0){

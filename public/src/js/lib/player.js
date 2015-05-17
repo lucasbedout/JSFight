@@ -175,7 +175,7 @@ var Player = function(SVG, type, x, y, $scope, player){
                 $$.kicking = false;
                 clearInterval($$.kickInterval);
             }
-        }, 5);
+        }, 1);
     };
 
     $$.buildStickmanJSON = function(){
@@ -217,7 +217,7 @@ var Player = function(SVG, type, x, y, $scope, player){
             "x1" : $$.x,
             "y1" : $$.bodyy1 + 60,
             "x2" : $$.legx,
-            "y2" : $$.bodyy1 + 60,
+            "y2" : $$.y + $$.height,
             "stroke" : "black",
             "strokeWidth" : 7
         };

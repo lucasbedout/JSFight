@@ -1,6 +1,8 @@
 // Dependencies
 var express = require('express');
 var app     = express();
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
 var path = require('path');
 var mongoose = require('mongoose'); // MongoDB connection
 var passport = require('passport'); // Authentication
@@ -27,13 +29,16 @@ app.use(session({secret: 'supinfocestnul' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Socket.io
+require('./app/routes/chat')(io);
+
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public/views/index.html'));
 })
 
 // Routes
-var auth = require('./app/routes/auth')(passport);
-app.use('/api/auth', auth);
+var routes = require('./app/routes/global')(passport);
+app.use('/api', routes);
 
-app.listen(3000);
+server.listen(3000);
 console.log('Magic happens on 3000');
