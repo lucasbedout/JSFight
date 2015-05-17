@@ -7,6 +7,7 @@ angular.module('JSFight')
 
         $scope.player = "player1";
         $scope.opponent = "player2";
+        $scope.opponent = "player2";
 
         $scope.player1 = new Player(svg, "default", 60, 60, $scope);
         $scope.player2 = new Player(svg, "default", 160, 60, $scope);
@@ -20,13 +21,15 @@ angular.module('JSFight')
         $scope[$scope.player].direciton = -1;
         $scope[$scope.player].jumping = 0;
 
+        $scope[$scope.opponent].attacking = true;
+
         document.addEventListener('keydown', function(event) {
             if (event.keyCode == 37){
                 //going left
                 $scope[$scope.player].movingLeft = true;
             } if (event.keyCode == 65){
                 // A Punch
-                if (!$scope[$scope.player].direction){
+                if (!$scope[$scope.player].attacking){
                     $scope[$scope.player].attacking = true;
                     $scope[$scope.player]
                         .punch(20,
@@ -71,18 +74,60 @@ angular.module('JSFight')
                 if (!$scope[$scope.player].crouched &&
                     !$scope[$scope.player].jumping)
                     $scope[$scope.player].crouch(30, $scope);
+            } if (event.keyCode == 81){
+                // Q kick
+                if (!$scope[$scope.player].attacking){
+                    $scope[$scope.player].attacking = true;
+                    $scope[$scope.player]
+                        .kick(20,
+                               $scope,
+                               $scope[$scope.player].direction);
+                }
+            } if (event.keyCode == 83){
+                // S kick
+                if (!$scope[$scope.player].attacking){
+                    $scope[$scope.player].attacking = true;
+                    $scope[$scope.player]
+                        .kick(50,
+                               $scope,
+                               $scope[$scope.player].direction);
+                }
+            } if (event.keyCode == 68){
+                // D kick
+                if (!$scope[$scope.player].attacking){
+                    $scope[$scope.player].attacking = true;
+                    $scope[$scope.player]
+                        .kick(100,
+                               $scope,
+                               $scope[$scope.player].direction);
+                }
             }
         });
 
         //handle gaming
         setInterval(function(){
             if ($scope[$scope.player].movingLeft){
-                $scope[$scope.player].moveLeft();
+                if ($scope[$scope.player].direction > 0 &&
+                    $scope[$scope.opponent].attacking &&
+                    !$scope[$scope.player].jumping){
+                    $scope[$scope.player].blockUp(10,
+                                                $scope,
+                                                  $scope[$scope.player].direction);
+                } else {
+                    $scope[$scope.player].moveLeft();
+                }
             }
             if ($scope[$scope.player].movingRight){
                 $scope[$scope.player].moveRight();
+                if ($scope[$scope.player].direction < 0 &&
+                    $scope[$scope.opponent].attacking &&
+                    !$scope[$scope.player].jumping){
+                    $scope[$scope.player].blockUp(10,
+                                                $scope,
+                                                  $scope[$scope.player].direction);
+                }
             }
-            if ($scope[$scope.player].x - $scope[$scope.opponent].x){
+            if ($scope[$scope.player].x - $scope[$scope.opponent].x > 0){
                 $scope[$scope.player].direction = -1;
                 $scope[$scope.opponent].direction = 1;
             } else {
@@ -91,7 +136,6 @@ angular.module('JSFight')
             }
             $scope[$scope.player].buildStickmanJSON();
             $scope.$apply();
-            console.log($scope[$scope.player].toJSON());
         }, 10);
 
         document.addEventListener('keyup', function(event) {
