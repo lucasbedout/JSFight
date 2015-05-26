@@ -3,7 +3,10 @@ angular.module('JSFight')
 
     .controller('HomeCtrl', ['$scope', '$state', '$rootScope', 'Auth', function($scope, $state, $rootScope, Auth) {
 
-        $scope.user = JSON.parse(localStorage.getItem('user')).user;
+        $scope.user = JSON.parse(localStorage.getItem('user'));
+        if ($scope.user) {
+            $scope.user = $scope.user.user;
+        }
 
         // Rootscope broadcast for user
         $rootScope.$on('login', function(user) {

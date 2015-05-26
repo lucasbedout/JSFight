@@ -3,8 +3,12 @@ angular.module('JSFight')
 
     .controller('ChatCtrl', ['$scope', '$http', '$log', 'Chat', 'API', 'Formatter', function($scope, $http, $log, Chat, API, Formatter) {
 
-        $scope.user = JSON.parse(localStorage.getItem('user')).user;
-        $scope.messageLog = 'Ready to chat!';
+        $scope.user = JSON.parse(localStorage.getItem('user'));
+        if ($scope.user) {
+            $scope.user = $scope.user.user;
+        }
+
+        $scope.messageLog = '';
 
         $scope.load = function() {
             $http.get(API.url + '/messages').success(function(messages) {

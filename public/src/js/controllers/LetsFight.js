@@ -1,7 +1,7 @@
 // public/src/js/controllers/MainCtrl.js
 angular.module('JSFight')
 
-    .controller('LetsFight', ['$scope', '$state', '$rootScope', 'Auth', function($scope, $state, $rootScope, Auth) {
+    .controller('LetsFight', ['$scope', function($scope) {
 
         var svg = new SVGLib(document.getElementById("wannaFight"));
 
